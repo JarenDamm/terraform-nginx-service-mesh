@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jaeger
+  namespace: nsm-monitoring
+  labels:
+    app.kubernetes.io/name: jaeger
+spec:
+  selector:
+    app.kubernetes.io/name: jaeger
+  ports:
+  - name: frontend
+    port: 16686
+  - name: collector
+    port: 6831
+    protocol: UDP
+  - name: collector-http
+    port: 14268
+  - name: collector-grpc
+    port: 14250
