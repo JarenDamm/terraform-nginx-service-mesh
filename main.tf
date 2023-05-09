@@ -50,6 +50,19 @@ resource "helm_release" "nginx-service-mesh" {
   }
 }
 
-# resource "helm_release" "nginx-ingress-controller" {
-#   repository = local.nginx_chart_url
-# }
+resource "helm_release" "nginx-ingress-controller" {
+  repository       = local.nginx_chart_url
+  chart            = "nginx-ingress"
+  name             = "nginx-ingress"
+  namespace        = var.nginx-ingress-namespace
+  version          = var.nginx-ingress-version
+  create_namespace = true
+
+  set {
+    name  = "nsm.nginx.com/enable-ingress"
+    value = "true"
+    type  = "string"
+  }
+
+  depends_on = [helm_release.nginx-service-mesh]
+}
